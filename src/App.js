@@ -1,25 +1,47 @@
-import logo from './logo.svg';
+import * as React from 'react';
+import { useContext } from "react";
+import { Outlet, Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { createMemoryHistory } from "history";
+import ComponentsTable from './pages/componentTables';
+import HistoryTable from './pages/historyTable-component';
+import CustomAppHeader from './components/CustomAppHeader'
 import './App.css';
+import EditComponent from './pages/EditPage' ;
+import CreateNewSteeper from './pages/CreateNewSteeper';
+import {Snackbar, Alert } from "@mui/material";
+import SnackbarContext from './utils/SnackbarContext';
+
 
 function App() {
+  const { snackbarOpen, snackbarMessage, snackbarSeverity, closeSnackbar } = useContext(SnackbarContext);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+    <Snackbar
+        open={snackbarOpen}
+        onClose={closeSnackbar}
+        autoHideDuration={6000}
+      >
+        <Alert
+          onClose={closeSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+      <CustomAppHeader />
+      <Router>
+        <Routes>
+          <Route path="/webcenter/portal/CMSOnline/pages_home/dcs/componenthandler/" element={<ComponentsTable />} />
+          <Route path="/webcenter/portal/CMSOnline/pages_home/dcs/componenthandler/history/:componentID" element={<HistoryTable />} />
+          <Route path="/webcenter/portal/CMSOnline/pages_home/dcs/componenthandler/edit" element={<EditComponent/>} />
+          <Route path="/webcenter/portal/CMSOnline/pages_home/dcs/componenthandler/createNew" element={<CreateNewSteeper/>} />
+        </Routes>
+      </Router>
+    </>
   );
 }
+
 
 export default App;

@@ -1,0 +1,1 @@
+export const Config =  window.config

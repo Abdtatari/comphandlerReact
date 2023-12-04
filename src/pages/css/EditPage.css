@@ -1,0 +1,40 @@
+.header{
+    text-align: center;
+    padding: 10px;
+  }
+  .section_header{
+    padding: 10px;
+    background-color: #3A5165;
+    color: white;
+  }
+  .section_header p {
+    font-weight: bold;
+  }
+  .section_content{
+    padding: 15px
+  }
+  h5{
+    margin: auto;
+  }
+  .mat-column-Name {
+    width: 90%;
+}
+.backIcon{
+    cursor: pointer;
+    float: left;
+}
+.checkbox-h2 {
+    margin: 10px;
+  }
+  
+  .checkbox-section {
+    display: inline;
+    margin-left:60px
+  }
+  
+  .checkbox-margin {
+    margin: 0 10px;
+  }
+ .header_buttons{
+  display: block;
+ }
