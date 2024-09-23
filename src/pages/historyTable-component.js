@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
+import { getHistory, getHistory2 } from "../dataSource/historyDAOs";
 
 const columns = [
   { field: "time", headerName: "Time", width: 250, type: "Date",},
@@ -65,29 +66,12 @@ function getAction(action, url) {
 }
 
 function HistoryTable() {
-  const location = useLocation();
-const level = location.state && location.state.level;
-const backID = location.state && location.state.id;
-  const [rows, setRows] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [history, setHistory] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
   const component = useParams();
 
   useEffect(() => {
-    fetch(Config.getHistory + " ?id=" + component.componentID)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setRows(data.map((dbFolderModel) => ({ ...dbFolderModel }))); // Set the data in state
-        setLoading(false); // Loading is complete
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false); // Loading is complete, even in case of an error
-      });
+    getHistory( component.componentID,setHistory,setHistoryLoading)    
   }, []);
   const navigate = useNavigate();
 
@@ -102,7 +86,7 @@ const backID = location.state && location.state.id;
         <ArrowBackIcon />
       </IconButton>
       <DataGrid
-        rows={rows}
+        rows={history}
         columns={columns}
         density="comfortable"
         hideFooterSelectedRowCount="true"
@@ -113,7 +97,7 @@ const backID = location.state && location.state.id;
           },
         }}
         pageSizeOptions={[10, 20, 50]}
-        loading={loading}
+        loading={historyLoading}
         autoHeight
         components={{
           HeaderCell: (props) => (
